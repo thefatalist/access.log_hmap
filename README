@@ -1,0 +1,25 @@
+This script will parse NGINX access log into CSV file to be represented as a heatmap in Excel spreadsheet.
+
+Generation:
+1) Configure the behavior of script by editing "config" dictionary. Most important parameters are:
+        - "lookForURL". If you are interested in particular type of URL. Lookup method: URL.startswith("lookForURL")
+        - "relevance". Minumum amount of requests from client to add him into the CSV file
+        - "ipagent". How to represent a client connection. Common: IP+AgentID+cookie
+2) Run the script against the access.log file:
+        ./parse_heatmap.py ~/myapp/log/access.log.yesterday
+3) The "result.csv" file will be stored in the same folder where you been during execution
+
+HeatMap representation:
+1) Copy "result.csv" file to your local PC, so that excel can use it
+2) In the opened spreadsheet open "DATA" tab and select "From text" source.
+3) Choose the "result.csv" file and select TAB as a delimeter
+4) Make it prety =)
+        - make the top row longer and change the direction of text
+        - select all and set column with = 2 or 3
+        - select all and set text color as white, then select first row and change text color to black. The same for first column
+        - now select all, open the "HOME" tab and press "Conditional formatting" button. Choose "Color scales"
+                - you can choose any, but I suggest "Red-White color scale". It will not colorize "0" valued cells
+
+If script can't parse access.log, make sure that it looks the same:
+10.20.30.40 - - - - [31/Oct/2014:00:00:00 +0000]  "GET /maina/html/home HTTP/1.1" 200 1523 upstream time/addr 0.050/192.168.0.1:80 - "https://mylilltetestsite.com/checks/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36" "5.58" "LONG LONG COOKIE DE61EEC6ASD739H3 - e326e4aaab0afa" jftest --UNNECESSARYDATA---
+
